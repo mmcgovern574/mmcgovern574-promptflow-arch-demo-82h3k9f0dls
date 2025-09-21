@@ -1294,6 +1294,9 @@
             text-align: center;
             box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
             transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
         
         .feature-card:hover {
@@ -1317,6 +1320,30 @@
             color: #86868b;
             font-size: 15px;
             line-height: 1.5;
+            margin-bottom: 12px;
+        }
+        
+        .feature-why {
+            font-size: 13px;
+            color: #007aff;
+            font-weight: 500;
+            font-style: italic;
+            margin-bottom: 8px;
+        }
+        
+        .feature-docs {
+            font-size: 12px;
+            color: #6e6e73;
+            margin-bottom: 0;
+        }
+        
+        .feature-docs a {
+            color: #007aff;
+            text-decoration: none;
+        }
+        
+        .feature-docs a:hover {
+            text-decoration: underline;
         }
         
         /* Results Section */
@@ -1827,7 +1854,7 @@
                             <li>Formatting/Template</li>
                             <li>Tables, Figures, etc.</li>
                         </ul>
-                    </div>
+                </div>
             </div>
             
                 <div class="document-after">
@@ -1860,22 +1887,17 @@
             <div class="steps-container">
                 <div class="step">
                     <div class="step-number">1</div>
-                    <div class="step-text">User inputs bullet-point outline</div>
+                    <div class="step-text">User pastes outline and clicks send</div>
                 </div>
                 <div class="step-arrow">→</div>
                 <div class="step">
                     <div class="step-number">2</div>
-                    <div class="step-text">Azure App Service receives request</div>
+                    <div class="step-text">Outline processed by a chain of custom prompts</div>
                 </div>
                 <div class="step-arrow">→</div>
                 <div class="step">
                     <div class="step-number">3</div>
-                    <div class="step-text">Promptflow processes with LLM</div>
-                </div>
-                <div class="step-arrow">→</div>
-                <div class="step">
-                    <div class="step-number">4</div>
-                    <div class="step-text">Formal document returned</div>
+                    <div class="step-text">Formal draft of document returned</div>
                 </div>
             </div>
             <p style="text-align: center; margin-top: 30px; color: #6e6e73; font-size: 16px; font-style: italic;">Great for frequently created Enterprise documents that must follow a standard template.</p>
@@ -1897,42 +1919,42 @@
                 <div class="table-container">
                         <table class="tech-stack-table">
                             <thead>
-                        <tr>
-                            <th>Layer</th>
-                            <th>Technology</th>
+                <tr>
+                    <th>Layer</th>
+                    <th>Technology</th>
                                     <th>Docs / Code Links</th>
-                        </tr>
+                </tr>
                             </thead>
                             <tbody>
-                        <tr>
-                            <td><strong>Frontend</strong></td>
+                <tr>
+                    <td><strong>Frontend</strong></td>
                                     <td><strong>Azure App Service</strong> (Python 3, Linux) deployed from <a href="https://github.com/microsoft/sample-app-aoai-chatGPT" target="_blank">sample-app-aoai-chatGPT GitHub repo</a> (Chatbot UI)</td>
-                                    <td><a href="https://learn.microsoft.com/en-us/azure/app-service/overview" target="_blank">Azure App Service overview</a> · <a href="https://learn.microsoft.com/en-us/azure/app-service/quickstart-python?tabs=flask" target="_blank">Quickstart: Python App Service</a></td>
-                        </tr>
-                        <tr>
+                                    <td><a href="https://learn.microsoft.com/en-us/azure/app-service/overview" target="_blank">Azure App Service overview</a>  <a href="https://learn.microsoft.com/en-us/azure/app-service/quickstart-python?tabs=flask" target="_blank">Quickstart: Python App Service</a></td>
+                </tr>
+                <tr>
                                     <td><strong>Orchestration/ Backend</strong></td>
                                     <td><strong>Promptflow flow endpoint</strong> (serverless, chain of saved custom prompts)</td>
-                                    <td><a href="https://learn.microsoft.com/en-us/azure/ai-studio/how-to/prompt-flow" target="_blank">Promptflow in Azure AI Foundry</a> · <a href="https://learn.microsoft.com/en-us/azure/machine-learning/prompt-flow/how-to-deploy-for-real-time-inference?view=azureml-api-2" target="_blank">Deploy Promptflow</a></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Model</strong></td>
+                                    <td><a href="https://learn.microsoft.com/en-us/azure/ai-studio/how-to/prompt-flow" target="_blank">Promptflow in Azure AI Foundry</a>  <a href="https://learn.microsoft.com/en-us/azure/machine-learning/prompt-flow/how-to-deploy-for-real-time-inference?view=azureml-api-2" target="_blank">Deploy Promptflow</a></td>
+                </tr>
+                <tr>
+                    <td><strong>Model</strong></td>
                                     <td><strong>Azure OpenAI GPT-4o</strong> (chat, temp=0, API key authentication)</td>
-                                    <td><a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/overview" target="_blank">Azure OpenAI Service docs</a> · <a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/quickstart?tabs=command-line&pivots=programming-language-python" target="_blank">Quickstart with GPT-4o</a></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Config</strong></td>
+                                    <td><a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/overview" target="_blank">Azure OpenAI Service docs</a>  <a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/quickstart?tabs=command-line&pivots=programming-language-python" target="_blank">Quickstart with GPT-4o</a></td>
+                </tr>
+                <tr>
+                    <td><strong>Config</strong></td>
                                     <td><strong>Environment variables in App Service</strong> (<code>PROMPTFLOW_ENDPOINT</code>, <code>PROMPTFLOW_API_KEY...)</td>
                                     <td><a href="https://learn.microsoft.com/en-us/azure/app-service/configure-common?tabs=portal" target="_blank">App Service: App settings / env vars</a></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Hosting</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>Hosting</strong></td>
                                     <td>100% Azure-native (<strong>App Service + Promptflow + Azure OpenAI</strong>), no manual server setup; Free (F1) App Service Plan for testing</td>
                                     <td><a href="https://azure.microsoft.com/en-us/pricing/details/app-service/linux/" target="_blank">Azure hosting options</a></td>
-                        </tr>
+                </tr>
                             </tbody>
-                    </table>
-                </div>
-                
+            </table>
+        </div>
+        
                 <h3 class="demo-title" style="margin-top: 60px; margin-bottom: 20px;">Architecture</h3>
                 <div class="diagram-container">
                     <img src="diagram.png" 
@@ -1941,7 +1963,7 @@
                          loading="lazy"
                          width="800" 
                          height="600" />
-                    </div>
+                </div>
                 
                 <h3 class="demo-title" style="margin-top: 60px; margin-bottom: 20px;">Promptflow</h3>
                 <div class="promptflow-diagram">
@@ -1949,41 +1971,49 @@
                         <div class="promptflow-box input">
                             <div class="promptflow-label">Input</div>
                             <div class="promptflow-desc">Bullet-point outline</div>
-                        </div>
+                    </div>
                         <div class="promptflow-arrow">→</div>
                         <div class="promptflow-box prompt">
                             <div class="promptflow-label">Custom Prompt 1</div>
                             <div class="promptflow-desc">Complete sentences</div>
-                        </div>
+                </div>
                         <div class="promptflow-arrow">→</div>
                         <div class="promptflow-box prompt">
                             <div class="promptflow-label">Custom Prompt 2</div>
                             <div class="promptflow-desc">Format & structure</div>
-                        </div>
+                    </div>
                         <div class="promptflow-dots">...</div>
                         <div class="promptflow-arrow">→</div>
                         <div class="promptflow-box output">
                             <div class="promptflow-label">Output</div>
                             <div class="promptflow-desc">Formal document</div>
-                        </div>
+                </div>
                     </div>
                 </div>
             </div>
-
+            
     </section>
 
     <!-- Implementation Process Section -->
     <section class="section">
         <div class="container">
-            <h2 class="section-title">Apply to Any Document</h2>
-            <p class="section-subtitle">Create a new custom promptflow for any document.</p>
+            <h2 class="section-title">Automate Any Document</h2>
+            <p class="section-subtitle">Create and deploy custom promptflows for any document.</p>
             
             <div class="process-image-container">
                 <img src="promptflowprocess.png" 
                      alt="Implementation process flow showing the steps from problem definition to deployment using Azure ML Promptflow" 
                      class="process-image"
                      loading="lazy" />
-                    </div>
+            </div>
+                    
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="https://youtu.be/z3yPMaQHgWQ?si=O_LWDVvxuMqIMcFv" 
+                   target="_blank" 
+                   style="color: #007aff; text-decoration: none; font-size: 16px; font-weight: 500;">
+                    Watch Tutorial: Build Custom Promptflows
+                </a>
+        </div>
                 </div>
     </section>
 
@@ -1995,34 +2025,46 @@
             
             <div class="features-grid">
                 <div class="feature-card">
-                    <span class="feature-emoji">🎯</span>
-                    <h4>Low-Code Development</h4>
-                    <p>Visual flow builder with LLM, Prompt, and Python nodes for rapid iteration</p>
+                    <span class="feature-emoji">🚀</span>
+                    <h4>Accelerated Development Cycle</h4>
+                    <p>Low-code environment to quickly prototype, deploy, and gather feedback. Simplifies the process of prototyping, experimenting, iterating, and deploying AI applications.</p>
+                    <p class="feature-why">Why it matters for enterprise: shortens time from idea → POC → measurable business impact.</p>
+                    <p class="feature-docs">📖 <a href="https://learn.microsoft.com/en-us/azure/machine-learning/prompt-flow/overview-what-is-prompt-flow?view=azureml-api-2" target="_blank">Develop flows in Azure</a></p>
                     </div>
                 <div class="feature-card">
                     <span class="feature-emoji">🔄</span>
-                    <h4>Flow Iteration</h4>
-                    <p>Create prompt variants and evaluate performance through large-scale testing</p>
+                    <h4>Rapid Accuracy Evaluation</h4>
+                    <p>Easily create prompt variants, run large-scale evaluations, and measure accuracy, cost, and latency to identify the best performing approach.</p>
+                    <p class="feature-why">Why it matters: ensures solutions are validated before scaling to production.</p>
+                    <p class="feature-docs">📖 <a href="https://learn.microsoft.com/en-us/azure/machine-learning/prompt-flow/how-to-bulk-test-evaluate-flow?view=azureml-api-2" target="_blank">Evaluate a prompt flow</a></p>
                 </div>
                 <div class="feature-card">
                     <span class="feature-emoji">🔒</span>
-                    <h4>Enterprise Security</h4>
-                    <p>Azure AD integration with encrypted data and compliance standards</p>
+                    <h4>Enterprise Security & Compliance</h4>
+                     <p>Uses <a href="https://learn.microsoft.com/en-us/azure/machine-learning/how-to-identity-based-service-authentication?view=azureml-api-2&tabs=cli" target="_blank" style="color: #007aff; text-decoration: none;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">Microsoft Entra ID (Azure AD) for identity</a>, <a href="https://microsoft.github.io/promptflow/concepts/concept-connections.html" target="_blank" style="color: #007aff; text-decoration: none;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">stores secrets in Azure Key Vault</a>, <a href="https://learn.microsoft.com/en-us/azure/machine-learning/concept-data-encryption?view=azureml-api-2" target="_blank" style="color: #007aff; text-decoration: none;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">encrypts data at rest and in transit</a>, and inherits Azure's compliance programs (<a href="https://learn.microsoft.com/en-us/azure/compliance/offerings/offering-iso-27001" target="_blank" style="color: #007aff; text-decoration: none;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">ISO/IEC 27001</a>, <a href="https://learn.microsoft.com/en-us/azure/compliance/offerings/offering-soc-2" target="_blank" style="color: #007aff; text-decoration: none;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">SOC</a>, <a href="https://learn.microsoft.com/en-us/azure/compliance/offerings/offering-hipaa-us" target="_blank" style="color: #007aff; text-decoration: none;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">HIPAA via BAA</a> for in-scope services, <a href="https://learn.microsoft.com/en-us/compliance/regulatory/gdpr" target="_blank" style="color: #007aff; text-decoration: none;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">GDPR</a> guidance).</p>
+                    <p class="feature-why">Why it matters: Enterprise-grade trust and regulatory alignment.</p>
+                    <p class="feature-docs">📖 <a href="https://learn.microsoft.com/en-us/azure/machine-learning/concept-enterprise-security?view=azureml-api-2" target="_blank">Azure ML Enterprise Security</a></p>
                     </div>
                 <div class="feature-card">
                     <span class="feature-emoji">📊</span>
-                    <h4>Performance Monitoring</h4>
-                    <p>Monitor flow performance in real-time with Azure ML endpoints</p>
+                    <h4>Performance Monitoring & Reliability</h4>
+                    <p>Flows deployed as Azure ML endpoints include built-in monitoring with Azure Monitor and Application Insights. Track throughput, latency, and quality in real time.</p>
+                    <p class="feature-why">Why it matters: ensures performance visibility for business stakeholders.</p>
+                    <p class="feature-docs">📖 <a href="https://learn.microsoft.com/en-us/azure/machine-learning/how-to-monitor-online-endpoints?view=azureml-api-2" target="_blank">Monitor endpoints</a></p>
                 </div>
                 <div class="feature-card">
                     <span class="feature-emoji">👥</span>
-                    <h4>Team Collaboration</h4>
-                    <p>Multiple users can collaborate with built-in version control</p>
+                    <h4>Team Collaboration & Governance</h4>
+                    <p>Flows live inside the Azure ML workspace with <a href="https://learn.microsoft.com/en-us/azure/machine-learning/prompt-flow/concept-variants?view=azureml-api-2" target="_blank" style="color: #007aff; text-decoration: none;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">version control</a> and <a href="https://learn.microsoft.com/en-us/azure/machine-learning/how-to-assign-roles?view=azureml-api-2&tabs=team-lead" target="_blank" style="color: #007aff; text-decoration: none;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">role-based access control</a>. Teams can debug, share, and iterate seamlessly.</p>
+                    <p class="feature-why">Why it matters: supports distributed teams and aligns with enterprise governance requirements.</p>
+                    <p class="feature-docs">📖 <a href="https://learn.microsoft.com/en-us/azure/machine-learning/concept-enterprise-security?view=azureml-api-2" target="_blank">Integrate with DevOps</a></p>
                     </div>
                 <div class="feature-card">
-                    <span class="feature-emoji">🚀</span>
-                    <h4>Production Deployment</h4>
-                    <p>Deploy flows as Azure ML endpoints for production-ready applications</p>
+                    <span class="feature-emoji">🎁</span>
+                    <h4>Production-Ready Deployment</h4>
+                    <p>Deploy flows as managed real-time endpoints with <a href="https://learn.microsoft.com/en-us/azure/machine-learning/how-to-autoscale-endpoints?view=azureml-api-2&tabs=cli" target="_blank" style="color: #007aff; text-decoration: none;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">autoscaling</a>, <a href="https://learn.microsoft.com/en-us/azure/machine-learning/how-to-safely-rollout-online-endpoints?view=azureml-api-2&tabs=azure-cli" target="_blank" style="color: #007aff; text-decoration: none;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">rollout</a>, and secure API access.</p>
+                    <p class="feature-why">Why it matters: enterprises can move from prototype → production confidently without re-architecting.</p>
+                    <p class="feature-docs">📖 <a href="https://learn.microsoft.com/en-us/azure/machine-learning/prompt-flow/how-to-deploy-for-real-time-inference?view=azureml-api-2" target="_blank">Deploy prompt flows</a></p>
                 </div>
                     </div>
                 </div>
@@ -2032,24 +2074,24 @@
     <section class="section">
         <div class="container">
             <h2 class="section-title">Results & Impact</h2>
-            <p class="section-subtitle">Transforming how enterprise teams create and manage documentation.</p>
+            <p class="section-subtitle">Accelerating tedious documentation creation for enterprise teams.</p>
             
             <div class="quote-container">
                 <blockquote class="testimonial-quote">
                     "Platform reduced time to draft a frequently completed R&D document by 75%, saving 192 development hours per project."
                 </blockquote>
                 <cite class="quote-attribution">— Medtech Company</cite>
-            </div>
-            </div>
+                    </div>
+                    </div>
     </section>
 
     <!-- Footer CTA -->
     <footer class="footer">
         <div class="container">
             <h3>Ready to Transform Your Documentation?</h3>
-            <p>Experience the power of automation with Azure ML Promptflow and revolutionize your enterprise workflows.</p>
+            <p>Experience the power of automation with Azure ML Promptflow and accelerate your enterprise workflows.</p>
             <a href="#" class="cta">Get Started Today</a>
-            </div>
+                    </div>
     </footer>
     
     <script>
