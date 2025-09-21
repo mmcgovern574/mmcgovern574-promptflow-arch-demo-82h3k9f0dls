@@ -1552,8 +1552,8 @@
         }
         
         .step-number {
-            width: clamp(28px, 4vw, 48px);
-            height: clamp(28px, 4vw, 48px);
+            width: clamp(40px, 6vw, 60px);
+            height: clamp(40px, 6vw, 60px);
             border-radius: 50%;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -1561,7 +1561,7 @@
             align-items: center;
             justify-content: center;
             font-weight: 600;
-            font-size: clamp(12px, 2vw, 18px);
+            font-size: clamp(16px, 2.5vw, 22px);
             margin-bottom: clamp(6px, 1vw, 12px);
         }
         
@@ -1585,20 +1585,26 @@
         
         @media (max-width: 480px) {
             .steps-container {
-                gap: clamp(4px, 1vw, 8px);
+                gap: clamp(8px, 2vw, 16px);
             }
             
             .step {
-                width: clamp(70px, 10vw, 120px);
+                width: clamp(100px, 15vw, 140px);
+            }
+            
+            .step-number {
+                width: clamp(36px, 6vw, 56px);
+                height: clamp(36px, 6vw, 56px);
+                font-size: clamp(14px, 2.5vw, 20px);
             }
             
             .step-text {
-                font-size: clamp(9px, 1.2vw, 12px);
+                font-size: clamp(12px, 2vw, 16px);
             }
             
             .step-arrow {
-                font-size: clamp(14px, 2vw, 18px);
-                margin: 0 clamp(1px, 0.3vw, 4px);
+                font-size: clamp(18px, 3vw, 22px);
+                margin: 0 clamp(3px, 0.8vw, 6px);
             }
         }
         
