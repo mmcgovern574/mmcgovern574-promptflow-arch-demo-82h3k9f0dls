@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Enterprise AI solution for automated R&D documentation using Azure ML Promptflow. Transform bullet-point outlines into formal documents in 1 click.">
+    <meta name="keywords" content="Azure AI, Promptflow, Documentation Automation, Enterprise, R&D">
+    <meta property="og:title" content="Enterprise AI Documentation Solution">
+    <meta property="og:description" content="Transform bullet-point outlines into formal documents in 1 click">
+    <meta property="og:image" content="diagram.png">
+    <meta property="og:type" content="website">
     <title>Enterprise AI Solution - Documentation Automation</title>
     <style>
         * {
@@ -59,6 +65,7 @@
             font-weight: 700;
             letter-spacing: -0.025em;
             margin-bottom: 24px;
+            text-align: center;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -71,6 +78,9 @@
             color: #6e6e73;
             margin-bottom: 48px;
             max-width: 800px;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         .hero .cta {
@@ -128,7 +138,7 @@
         }
         
         .section-title {
-            font-size: clamp(40px, 6vw, 64px);
+            font-size: clamp(48px, 6vw, 72px);
             font-weight: 700;
             letter-spacing: -0.025em;
             text-align: center;
@@ -157,6 +167,604 @@
             background: #f8f9fa;
             border-radius: 24px;
             position: relative;
+        }
+        
+        .document-before,
+        .document-after {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .document-icon {
+            width: 120px;
+            height: 160px;
+            background: white;
+            border: 2px solid #e5e5e7;
+            border-radius: 12px;
+            margin: 0 auto 20px;
+            padding: 16px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            position: relative;
+        }
+        
+        .document-header {
+            width: 100%;
+            height: 12px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 6px;
+            margin-bottom: 16px;
+        }
+        
+        .bullet-point {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 12px;
+            color: #1d1d1f;
+        }
+        
+        .bullet-line {
+            height: 2px;
+            background: #d1d1d6;
+            border-radius: 1px;
+            margin-left: 8px;
+            flex: 1;
+        }
+        
+        .bullet-line.medium {
+            width: 60%;
+        }
+        
+        .bullet-line.long {
+            width: 85%;
+        }
+        
+        .paragraph-line {
+            height: 3px;
+            background: #1d1d1f;
+            border-radius: 2px;
+            margin-bottom: 6px;
+            width: 80%;
+        }
+        
+        .paragraph-line.full {
+            width: 100%;
+        }
+        
+        .paragraph-line.medium {
+            width: 65%;
+        }
+        
+        .mini-table {
+            margin: 12px 0;
+            border: 1px solid #e5e5e7;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .table-row {
+            display: flex;
+        }
+        
+        .table-cell {
+            flex: 1;
+            height: 8px;
+            background: #f8f9fa;
+            border-right: 1px solid #e5e5e7;
+        }
+        
+        .table-cell:last-child {
+            border-right: none;
+        }
+        
+        .table-row:first-child .table-cell {
+            background: #667eea;
+        }
+        
+        .mini-figure {
+            margin: 12px 0;
+        }
+        
+        .figure-box {
+            width: 100%;
+            height: 20px;
+            background: linear-gradient(45deg, #f0f0f0 25%, transparent 25%), 
+                        linear-gradient(-45deg, #f0f0f0 25%, transparent 25%), 
+                        linear-gradient(45deg, transparent 75%, #f0f0f0 75%), 
+                        linear-gradient(-45deg, transparent 75%, #f0f0f0 75%);
+            background-size: 4px 4px;
+            background-position: 0 0, 0 2px, 2px -2px, -2px 0px;
+            border: 1px solid #e5e5e7;
+            border-radius: 4px;
+        }
+        
+        .document-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1d1d1f;
+            margin-top: 16px;
+        }
+        
+        .arrow-container {
+            flex: 0 0 clamp(100px, 15vw, 200px);
+            text-align: center;
+            position: relative;
+        }
+        
+        .arrow {
+            position: relative;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .arrow-line {
+            width: clamp(40px, 8vw, 100px);
+            height: clamp(2px, 0.3vw, 4px);
+            background: #667eea;
+        }
+        
+        .arrow-head {
+            width: 0;
+            height: 0;
+            border-left: clamp(6px, 1.2vw, 16px) solid #667eea;
+            border-top: clamp(3px, 0.6vw, 8px) solid transparent;
+            border-bottom: clamp(3px, 0.6vw, 8px) solid transparent;
+            margin-left: 0;
+        }
+        
+        .tech-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #667eea;
+            margin-top: 12px;
+            background: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            border: 1px solid #667eea;
+        }
+        
+        .process-features {
+            margin-top: clamp(16px, 3vw, 32px);
+            text-align: left;
+        }
+        
+        .process-features ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: inline-block;
+            text-align: left;
+        }
+        
+        .process-features li {
+            font-size: clamp(9px, 1.5vw, 14px);
+            color: #667eea;
+            margin-bottom: clamp(3px, 0.5vw, 6px);
+            position: relative;
+            padding-left: clamp(6px, 1vw, 12px);
+            text-align: left;
+        }
+        
+        .process-features li::before {
+            content: '•';
+            color: #667eea;
+            position: absolute;
+            left: 0;
+            font-size: clamp(8px, 1.2vw, 12px);
+        }
+        
+        /* Chat Demo Container */
+        .chat-demo-container {
+            max-width: 800px;
+            margin: 60px auto 0;
+            padding: 40px;
+            background: #f8f9fa;
+            border-radius: 24px;
+        }
+        
+        .chat-interface {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: 1px solid #e5e5e7;
+        }
+        
+        .chat-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .chat-title {
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        .chat-status {
+            font-size: 12px;
+            opacity: 0.9;
+            display: flex;
+            align-items: center;
+        }
+        
+        .chat-status::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: #34c759;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+        
+        .chat-messages {
+            padding: 20px;
+            max-height: 500px;
+            overflow-y: auto;
+            background: #fafafa;
+        }
+        
+        .message {
+            margin-bottom: 16px;
+                opacity: 0;
+            transform: translateY(20px);
+            animation: messageSlideIn 0.5s ease forwards;
+        }
+        
+        .message.user-message {
+            text-align: right;
+        }
+        
+        .message.bot-message {
+            text-align: left;
+        }
+        
+        .message-content {
+            display: inline-block;
+            max-width: 70%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            position: relative;
+        }
+        
+        .user-message .message-content {
+            background: #007aff;
+            color: white;
+        }
+        
+        .bot-message .message-content {
+            background: white;
+            color: #1d1d1f;
+            border: 1px solid #e5e5e7;
+        }
+        
+        .message-text {
+            line-height: 1.4;
+            font-size: 14px;
+        }
+        
+        .outline-input {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 8px;
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        
+        .message-timestamp {
+            font-size: 11px;
+            color: #86868b;
+            margin-top: 4px;
+        }
+        
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 12px 16px;
+        }
+        
+        .typing-indicator span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #86868b;
+            animation: typingDot 1.4s infinite ease-in-out;
+        }
+        
+        .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+        
+        .generated-document {
+            background: #f8f9fa;
+            border: 1px solid #e5e5e7;
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 12px;
+            font-size: 13px;
+        }
+        
+        .doc-header {
+            font-weight: 700;
+            font-size: 16px;
+            color: #1d1d1f;
+            text-align: center;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #667eea;
+        }
+        
+        .doc-section {
+            margin-bottom: 16px;
+        }
+        
+        .doc-section .section-title {
+            font-weight: 600;
+            font-size: 14px;
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+        
+        .doc-paragraph {
+            color: #1d1d1f;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+        
+        .doc-table {
+            margin: 16px 0;
+        }
+        
+        .table-title {
+            font-weight: 600;
+            font-size: 13px;
+            color: #1d1d1f;
+            margin-bottom: 8px;
+        }
+        
+        .table-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1px;
+            background: #e5e5e7;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        .table-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 12px;
+            font-weight: 600;
+            font-size: 12px;
+        }
+        
+        .table-cell {
+            background: white;
+            padding: 8px 12px;
+            font-size: 12px;
+        }
+        
+        .chat-input {
+            padding: 16px 20px;
+            background: white;
+            border-top: 1px solid #e5e5e7;
+        }
+        
+        .input-placeholder {
+            background: #f5f5f7;
+            padding: 12px 16px;
+            border-radius: 20px;
+            color: #86868b;
+            font-size: 14px;
+        }
+        
+        /* Tool Summary Section */
+        .summary-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-bottom: 1px solid #e5e5e7;
+        }
+        
+        .summary-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .summary-text {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #1d1d1f;
+            margin: 0;
+        }
+        
+        .summary-text strong {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        /* Demo titles */
+        .demo-title {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 24px;
+            color: #1d1d1f;
+        }
+        
+        .diagram-container {
+            text-align: center;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+        
+        .architecture-image {
+            max-width: 100%;
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+        }
+        
+        /* Process Image */
+        .process-image-container {
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        .process-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Small document graphics for chat */
+        .document-icon-small {
+            width: 60px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(229, 229, 231, 0.8);
+            border-radius: 6px;
+            padding: 8px;
+            margin: 0 auto;
+        }
+        
+        .document-icon-small.formal {
+            background: #f8f9fa;
+            border: 1px solid #e5e5e7;
+        }
+        
+        .document-header-small {
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 2px;
+            margin-bottom: 6px;
+        }
+        
+        .bullet-point-small {
+            display: flex;
+            align-items: center;
+            margin-bottom: 3px;
+            font-size: 8px;
+            color: rgba(29, 29, 31, 0.8);
+        }
+        
+        .bullet-line-small {
+            height: 1px;
+            background: rgba(209, 209, 214, 0.8);
+            border-radius: 1px;
+            margin-left: 3px;
+            flex: 1;
+        }
+        
+        .bullet-line-small.medium {
+            width: 60%;
+        }
+        
+        .bullet-line-small.long {
+            width: 85%;
+        }
+        
+        .paragraph-line-small {
+            height: 1.5px;
+            background: rgba(29, 29, 31, 0.8);
+            border-radius: 1px;
+            margin-bottom: 2px;
+            width: 80%;
+        }
+        
+        .paragraph-line-small.full {
+            width: 100%;
+        }
+        
+        .paragraph-line-small.medium {
+            width: 65%;
+        }
+        
+        .mini-table-small {
+            margin: 4px 0;
+            border: 0.5px solid #e5e5e7;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .table-row-small {
+            display: flex;
+        }
+        
+        .table-cell-small {
+            flex: 1;
+            height: 3px;
+            background: #f8f9fa;
+            border-right: 0.5px solid #e5e5e7;
+        }
+        
+        .table-cell-small:last-child {
+            border-right: none;
+        }
+        
+        .table-row-small:first-child .table-cell-small {
+            background: #667eea;
+        }
+        
+        .mini-figure-small {
+            margin: 4px 0;
+        }
+        
+        .figure-box-small {
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(45deg, #f0f0f0 25%, transparent 25%), 
+                        linear-gradient(-45deg, #f0f0f0 25%, transparent 25%), 
+                        linear-gradient(45deg, transparent 75%, #f0f0f0 75%), 
+                        linear-gradient(-45deg, transparent 75%, #f0f0f0 75%);
+            background-size: 2px 2px;
+            background-position: 0 0, 0 1px, 1px -1px, -1px 0px;
+            border: 0.5px solid #e5e5e7;
+            border-radius: 2px;
+        }
+        
+        .processing-graphic {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 40px;
+        }
+        
+        .processing-dots {
+            display: flex;
+            gap: 4px;
+        }
+        
+        .processing-dots span {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #667eea;
+            animation: processingPulse 1.4s infinite ease-in-out;
+        }
+        
+        .processing-dots span:nth-child(1) { animation-delay: -0.32s; }
+        .processing-dots span:nth-child(2) { animation-delay: -0.16s; }
+        
+        @keyframes processingPulse {
+            0%, 80%, 100% {
+                transform: scale(0.8);
+                opacity: 0.5;
+            }
+            40% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
         }
         
         .document-before,
@@ -385,7 +993,8 @@
         
         /* Tech Stack Table */
         .table-container {
-            margin-top: 80px;
+            margin-top: 40px;
+            max-width: 100%;
             overflow-x: auto;
             border-radius: 20px;
             box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
@@ -739,6 +1348,232 @@
             flex-shrink: 0;
         }
         
+        /* Quote Styling */
+        .quote-container {
+            max-width: 800px;
+            margin: 80px auto 0;
+            text-align: center;
+        }
+        
+        .testimonial-quote {
+            font-size: clamp(24px, 4vw, 32px);
+            font-weight: 400;
+            line-height: 1.4;
+            color: #1d1d1f;
+            margin: 0 0 24px 0;
+            font-style: italic;
+            position: relative;
+        }
+        
+        .testimonial-quote::before {
+            content: """;
+            font-size: 80px;
+            color: #007aff;
+            position: absolute;
+            top: -20px;
+            left: -40px;
+            font-family: Georgia, serif;
+            opacity: 0.3;
+        }
+        
+        .testimonial-quote::after {
+            content: """;
+            font-size: 80px;
+            color: #007aff;
+            position: absolute;
+            bottom: -60px;
+            right: -40px;
+            font-family: Georgia, serif;
+            opacity: 0.3;
+        }
+        
+        .quote-attribution {
+            font-size: 18px;
+            color: #6e6e73;
+            font-weight: 500;
+            font-style: normal;
+        }
+        
+        /* Promptflow Diagram Styling */
+        .promptflow-diagram {
+            margin-top: 40px;
+            padding: 0 20px;
+        }
+        
+        .promptflow-step {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: nowrap;
+            gap: 8px;
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 10px 0;
+        }
+        
+        .promptflow-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 120px;
+            flex-shrink: 1;
+            padding: 20px 12px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
+        }
+        
+        .promptflow-box:hover {
+            transform: translateY(-2px);
+        }
+        
+        .promptflow-box.input {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border: 2px solid #2196f3;
+        }
+        
+        .promptflow-box.prompt {
+            background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+            border: 2px solid #9c27b0;
+        }
+        
+        .promptflow-box.output {
+            background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%);
+            border: 2px solid #4caf50;
+        }
+        
+        .promptflow-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1d1d1f;
+            margin-bottom: 8px;
+        }
+        
+        .promptflow-desc {
+            font-size: 11px;
+            color: #6e6e73;
+            line-height: 1.3;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: none;
+        }
+        
+        .promptflow-arrow {
+            font-size: 20px;
+            color: #007aff;
+            font-weight: bold;
+            margin: 0 4px;
+            flex-shrink: 0;
+        }
+        
+        .promptflow-dots {
+            font-size: 18px;
+            color: #6e6e73;
+            font-weight: bold;
+            margin: 0 4px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        @media (max-width: 480px) {
+            .promptflow-step {
+                gap: 4px;
+            }
+            
+            .promptflow-box {
+                width: 80px;
+                padding: 12px 8px;
+            }
+            
+            .promptflow-desc {
+                font-size: 10px;
+            }
+            
+            .promptflow-arrow {
+                font-size: 16px;
+                margin: 0 2px;
+            }
+        }
+
+        /* User Steps Styling */
+        .user-steps {
+            margin-top: 40px;
+            padding: 0 20px;
+        }
+        
+        .steps-container {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            flex-wrap: nowrap;
+            gap: 8px;
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 10px 0;
+        }
+        
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 100px;
+            flex-shrink: 1;
+        }
+        
+        .step-number {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        
+        .step-text {
+            font-size: 12px;
+            color: #1d1d1f;
+            font-weight: 500;
+            line-height: 1.3;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: none;
+        }
+        
+        .step-arrow {
+            font-size: 18px;
+            color: #007aff;
+            font-weight: bold;
+            margin: 0 4px;
+            flex-shrink: 0;
+        }
+        
+        @media (max-width: 480px) {
+            .steps-container {
+                gap: 4px;
+            }
+            
+            .step {
+                width: 80px;
+            }
+            
+            .step-text {
+                font-size: 11px;
+            }
+            
+            .step-arrow {
+                font-size: 16px;
+                margin: 0 2px;
+            }
+        }
+        
         /* Footer */
         .footer {
             background: #1d1d1f;
@@ -802,6 +1637,26 @@
             }
         }
         
+        @keyframes messageSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes typingDot {
+            0%, 80%, 100% {
+                transform: scale(0);
+            }
+            40% {
+                transform: scale(1);
+            }
+        }
+        
         /* Responsive Design */
         @media (max-width: 768px) {
             .container {
@@ -826,20 +1681,75 @@
             }
             
             .transformation-visual {
-                flex-direction: column;
+                flex-direction: row;
                 padding: 40px 20px;
-                gap: 40px;
+                gap: 20px;
+                overflow-x: auto;
+                justify-content: center;
             }
             
             .arrow-container {
                 margin: 0;
-                transform: rotate(90deg);
+                transform: none;
             }
             
             .document-icon {
-                width: 160px;
-                height: 200px;
-                padding: 16px;
+                width: 140px;
+                height: 180px;
+                padding: 14px;
+                flex-shrink: 0;
+            }
+            
+            .document-before,
+            .document-after {
+                flex: none;
+                min-width: 140px;
+                text-align: center;
+            }
+            
+            .document-icon .document-header {
+                height: 8px;
+                margin-bottom: 12px;
+            }
+            
+            .document-icon .bullet-point {
+                font-size: 10px;
+                margin-bottom: 6px;
+            }
+            
+            .document-icon .bullet-line {
+                height: 1px;
+                width: 40px;
+            }
+            
+            .document-icon .bullet-line.long {
+                width: 50px;
+            }
+            
+            .document-icon .bullet-line.medium {
+                width: 35px;
+            }
+            
+            .document-icon .paragraph-line {
+                height: 4px;
+                margin-bottom: 4px;
+            }
+            
+            .document-icon .mini-table {
+                margin: 6px 0;
+            }
+            
+            .document-icon .table-cell {
+                height: 8px;
+            }
+            
+            .document-icon .mini-figure {
+                margin: 6px 0;
+            }
+            
+            .document-icon .figure-box {
+                width: 50px;
+                height: 12px;
             }
             
             .table-container {
@@ -849,9 +1759,9 @@
             .tech-stack-table th,
             .tech-stack-table td {
                 padding: 12px 16px;
-                font-size: 14px;
-            }
-            
+            font-size: 14px;
+        }
+        
             .architecture-diagram {
                 margin-top: 40px;
                 padding: 40px 20px;
@@ -879,18 +1789,18 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
-            <h1>Enterprise AI Solution</h1>
-            <div class="subtitle">Automated Documentation Platform powered by Azure ML Promptflow</div>
-            <a href="#solution" class="cta">Discover the Solution</a>
+            <h1>Enterprise Documentation Platform</h1>
+            <div class="subtitle">Translate Outlines to Formal Drafts in 1-Click</div>
+            <a href="#solution" class="cta">Read More</a>
         </div>
-        <div class="scroll-indicator"></div>
+        <div class="scroll-indicator" aria-label="Scroll down for more content" role="button" tabindex="0"></div>
     </section>
 
     <!-- What I Built Section -->
     <section id="solution" class="section">
         <div class="container">
-            <h2 class="section-title">What I Built</h2>
-            <p class="section-subtitle">A 1-click solution that converts bullet-point outlines to formal R&D documentation drafts, reducing document creation time from 4 hours to 1 hour.</p>
+            <h2 class="section-title">The Platform</h2>
+            <p class="section-subtitle">A 1-click solution that translates bullet-point outlines to formal documentation drafts, significantly reducing document creation time.</p>
             
             <div class="transformation-visual">
                 <div class="document-before">
@@ -903,16 +1813,23 @@
                         <div class="bullet-point">•<span class="bullet-line"></span></div>
                     </div>
                     <div class="document-label">Outline Input</div>
-                </div>
+                    </div>
                 
                 <div class="arrow-container">
                     <div class="arrow">
                         <div class="arrow-line"></div>
                         <div class="arrow-head"></div>
                     </div>
-                    <div class="tech-label">Azure ML Promptflow</div>
-                </div>
-                
+                    <div class="process-features">
+                        <ul>
+                            <li>Complete sentences</li>
+                            <li>Grammar/Flow</li>
+                            <li>Formatting/Template</li>
+                            <li>Tables, Figures, etc.</li>
+                        </ul>
+                    </div>
+            </div>
+            
                 <div class="document-after">
                     <div class="document-icon">
                         <div class="document-header"></div>
@@ -922,48 +1839,47 @@
                             <div class="table-row">
                                 <div class="table-cell"></div>
                                 <div class="table-cell"></div>
-                            </div>
+                </div>
                             <div class="table-row">
                                 <div class="table-cell"></div>
                                 <div class="table-cell"></div>
-                            </div>
-                        </div>
+                </div>
+                </div>
                         <div class="paragraph-line full"></div>
                         <div class="mini-figure">
                             <div class="figure-box"></div>
-                        </div>
+                </div>
                         <div class="paragraph-line medium"></div>
                     </div>
                     <div class="document-label">Formal Document</div>
+            </div>
+        </div>
+        
+        <div class="user-steps">
+            <h4 style="text-align: center; margin-bottom: 30px; color: #1d1d1f; font-size: 20px; font-weight: 600;">How It Works</h4>
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-text">User inputs bullet-point outline</div>
+                </div>
+                <div class="step-arrow">→</div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-text">Azure App Service receives request</div>
+                </div>
+                <div class="step-arrow">→</div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-text">Promptflow processes with GPT-4o</div>
+                </div>
+                <div class="step-arrow">→</div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-text">Formal document returned</div>
                 </div>
             </div>
         </div>
-    </section>
-
-    <!-- Business Impact Section -->
-    <section class="section metrics-section">
-        <div class="container">
-            <h2 class="section-title">Business Impact</h2>
-            <p class="section-subtitle">Addressing the main R&D bottleneck: 80% of time spent on tedious documentation for regulatory approval.</p>
-            
-            <div class="metrics-grid">
-                <div class="metric-card">
-                    <span class="metric-value">4hrs → 1hr</span>
-                    <span class="metric-label">Document Draft Time</span>
-                </div>
-                <div class="metric-card">
-                    <span class="metric-value">192</span>
-                    <span class="metric-label">Hours Saved/Project</span>
-                </div>
-                <div class="metric-card">
-                    <span class="metric-value">64x</span>
-                    <span class="metric-label">Documents/R&D Project</span>
-                </div>
-                <div class="metric-card">
-                    <span class="metric-value">80%</span>
-                    <span class="metric-label">R&D Time on Documentation</span>
-                </div>
-            </div>
+        
         </div>
     </section>
 
@@ -971,104 +1887,109 @@
     <section class="section">
         <div class="container">
             <h2 class="section-title">Technical Architecture</h2>
-            <p class="section-subtitle">Built on Azure's enterprise-grade platform with modern, scalable technologies.</p>
+            <p class="section-subtitle">Tech stack built on Azure's enterprise-grade scalable platform.</p>
             
-            <div class="table-container">
-                <table class="tech-stack-table">
-                    <thead>
+
+        
+            <div class="architecture-diagram">
+                <h3 class="demo-title">Tech Stack</h3>
+                <div class="table-container">
+                        <table class="tech-stack-table">
+                            <thead>
                         <tr>
                             <th>Layer</th>
                             <th>Technology</th>
-                            <th>Docs / Code Links</th>
+                                    <th>Docs / Code Links</th>
                         </tr>
-                    </thead>
-                    <tbody>
+                            </thead>
+                            <tbody>
                         <tr>
                             <td><strong>Frontend</strong></td>
-                            <td><strong>Azure App Service</strong> (Python 3.11, Linux) deployed from <a href="https://github.com/Azure-Samples/sample-app-aoai-chatGPT" target="_blank">sample-app-aoai-chatGPT GitHub repo</a></td>
-                            <td><a href="https://learn.microsoft.com/en-us/azure/app-service/overview" target="_blank">Azure App Service overview</a> · <a href="https://learn.microsoft.com/en-us/azure/app-service/quickstart-python?tabs=flask" target="_blank">Quickstart: Python App Service</a></td>
+                                    <td><strong>Azure App Service</strong> (Python 3, Linux) deployed from <a href="https://github.com/Azure-Samples/sample-app-aoai-chatGPT" target="_blank">sample-app-aoai-chatGPT GitHub repo</a></td>
+                                    <td><a href="https://learn.microsoft.com/en-us/azure/app-service/overview" target="_blank">Azure App Service overview</a> · <a href="https://learn.microsoft.com/en-us/azure/app-service/quickstart-python?tabs=flask" target="_blank">Quickstart: Python App Service</a></td>
                         </tr>
                         <tr>
-                            <td><strong>Orchestration / "Backend"</strong></td>
-                            <td><strong>Promptflow flow endpoint</strong> (serverless; runs your 2-step pipeline)</td>
-                            <td><a href="https://learn.microsoft.com/en-us/azure/ai-studio/how-to/prompt-flow" target="_blank">Promptflow in Azure AI Foundry</a> · <a href="https://learn.microsoft.com/en-us/azure/machine-learning/prompt-flow/how-to-deploy" target="_blank">Deploy Promptflow</a></td>
+                                    <td><strong>Orchestration/ Backend</strong></td>
+                                    <td><strong>Promptflow flow endpoint</strong> (serverless, chain of saved custom prompts)</td>
+                                    <td><a href="https://learn.microsoft.com/en-us/azure/ai-studio/how-to/prompt-flow" target="_blank">Promptflow in Azure AI Foundry</a> · <a href="https://learn.microsoft.com/en-us/azure/machine-learning/prompt-flow/how-to-deploy" target="_blank">Deploy Promptflow</a></td>
                         </tr>
                         <tr>
                             <td><strong>Model</strong></td>
-                            <td><strong>Azure OpenAI GPT-4o</strong> (chat, temp=0, key authentication)</td>
-                            <td><a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/overview" target="_blank">Azure OpenAI Service docs</a> · <a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/quickstart?tabs=command-line&pivots=programming-language-python" target="_blank">Quickstart with GPT-4o</a></td>
+                                    <td><strong>Azure OpenAI GPT-4o</strong> (chat, temp=0, API key authentication)</td>
+                                    <td><a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/overview" target="_blank">Azure OpenAI Service docs</a> · <a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/quickstart?tabs=command-line&pivots=programming-language-python" target="_blank">Quickstart with GPT-4o</a></td>
                         </tr>
                         <tr>
                             <td><strong>Config</strong></td>
-                            <td><strong>Environment variables in App Service</strong> (<code>PROMPTFLOW_ENDPOINT</code>, <code>PROMPTFLOW_API_KEY</code>, <code>MONGODB_*</code>, etc.)</td>
-                            <td><a href="https://learn.microsoft.com/en-us/azure/app-service/configure-common?tabs=portal" target="_blank">App Service: App settings / env vars</a></td>
+                                    <td><strong>Environment variables in App Service</strong> (<code>PROMPTFLOW_ENDPOINT</code>, <code>PROMPTFLOW_API_KEY...)</td>
+                                    <td><a href="https://learn.microsoft.com/en-us/azure/app-service/configure-common?tabs=portal" target="_blank">App Service: App settings / env vars</a></td>
                         </tr>
                         <tr>
                             <td><strong>Hosting</strong></td>
-                            <td>100% Azure-native (<strong>App Service + Promptflow + Azure OpenAI</strong>), no manual server setup; Free (F1) App Service Plan</td>
-                            <td><a href="https://azure.microsoft.com/en-us/pricing/details/app-service/linux/" target="_blank">Azure hosting options</a></td>
+                                    <td>100% Azure-native (<strong>App Service + Promptflow + Azure OpenAI</strong>), no manual server setup; Free (F1) App Service Plan</td>
+                                    <td><a href="https://azure.microsoft.com/en-us/pricing/details/app-service/linux/" target="_blank">Azure hosting options</a></td>
                         </tr>
-                    </tbody>
-                </table>
-            </div>
-            
-            <div class="architecture-diagram">
-                <h3 style="text-align: center; margin-bottom: 40px; font-size: 24px; color: #1d1d1f;">Architecture Flow</h3>
-                <div style="text-align: center;">
+                            </tbody>
+                    </table>
+                </div>
+                
+                <h3 class="demo-title" style="margin-top: 60px; margin-bottom: 20px;">Architecture</h3>
+                <div class="diagram-container">
                     <img src="diagram.png" 
-                         alt="Architecture Diagram" 
-                         style="max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);" />
+                         alt="Azure ML Promptflow architecture diagram showing user request flow from Azure App Service through Promptflow to OpenAI GPT-4o and back" 
+                         class="architecture-image"
+                         loading="lazy"
+                         width="800" 
+                         height="600" />
+                    </div>
+                
+                <h3 class="demo-title" style="margin-top: 60px; margin-bottom: 20px;">Promptflow</h3>
+                <div class="promptflow-diagram">
+                    <div class="promptflow-step">
+                        <div class="promptflow-box input">
+                            <div class="promptflow-label">Input</div>
+                            <div class="promptflow-desc">Bullet-point outline</div>
+                        </div>
+                        <div class="promptflow-arrow">→</div>
+                        <div class="promptflow-box prompt">
+                            <div class="promptflow-label">Custom Prompt 1</div>
+                            <div class="promptflow-desc">Complete sentences</div>
+                        </div>
+                        <div class="promptflow-arrow">→</div>
+                        <div class="promptflow-box prompt">
+                            <div class="promptflow-label">Custom Prompt 2</div>
+                            <div class="promptflow-desc">Format & structure</div>
+                        </div>
+                        <div class="promptflow-dots">...</div>
+                        <div class="promptflow-arrow">→</div>
+                        <div class="promptflow-box output">
+                            <div class="promptflow-label">Output</div>
+                            <div class="promptflow-desc">Formal document</div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+
     </section>
 
     <!-- Implementation Process Section -->
     <section class="section">
         <div class="container">
-            <h2 class="section-title">Implementation Process</h2>
-            <p class="section-subtitle">A structured approach from concept to production deployment.</p>
+            <h2 class="section-title">Apply to Any Document</h2>
+            <p class="section-subtitle">Create a new custom promptflow for any document.</p>
             
-            <div class="process-timeline">
-                <div class="timeline-item">
-                    <div class="timeline-number">1</div>
-                    <div class="timeline-content">
-                        <h4>Define the Problem</h4>
-                        <p>Interviewed R&D SMEs, identified documentation bottleneck, quantified current state (4hrs/document), gathered past examples</p>
+            <div class="process-image-container">
+                <img src="promptflowprocess.png" 
+                     alt="Implementation process flow showing the steps from problem definition to deployment using Azure ML Promptflow" 
+                     class="process-image"
+                     loading="lazy" />
                     </div>
                 </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-number">2</div>
-                    <div class="timeline-content">
-                        <h4>Build Minimally and Quickly</h4>
-                        <p>Started with Enterprise Copilot, moved to custom 2-step Azure Promptflow solution for better user experience</p>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-number">3</div>
-                    <div class="timeline-content">
-                        <h4>Launch POC to Users</h4>
-                        <p>Deploy 1-click solution to R&D engineers, gather feedback on output quality and workflow integration</p>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-number">4</div>
-                    <div class="timeline-content">
-                        <h4>Iterate Based on Feedback</h4>
-                        <p>Continuously improve prompts and formatting based on user adoption and document quality feedback</p>
-                    </div>
-                </div>
-            </div>
-        </div>
     </section>
 
     <!-- Enterprise Features Section -->
     <section class="section features-section">
         <div class="container">
-            <h2 class="section-title">Enterprise Capabilities</h2>
+            <h2 class="section-title">Enterprise Ready</h2>
             <p class="section-subtitle">Built for enterprise scale with security, reliability, and performance at its core.</p>
             
             <div class="features-grid">
@@ -1076,7 +1997,7 @@
                     <span class="feature-emoji">🎯</span>
                     <h4>Low-Code Development</h4>
                     <p>Visual flow builder with LLM, Prompt, and Python nodes for rapid iteration</p>
-                </div>
+                    </div>
                 <div class="feature-card">
                     <span class="feature-emoji">📈</span>
                     <h4>Auto-Scaling</h4>
@@ -1086,7 +2007,7 @@
                     <span class="feature-emoji">🔒</span>
                     <h4>Enterprise Security</h4>
                     <p>Azure AD integration with encrypted data and compliance standards</p>
-                </div>
+                    </div>
                 <div class="feature-card">
                     <span class="feature-emoji">📊</span>
                     <h4>Real-time Monitoring</h4>
@@ -1096,14 +2017,14 @@
                     <span class="feature-emoji">👥</span>
                     <h4>Team Collaboration</h4>
                     <p>Multiple users can collaborate with built-in version control</p>
-                </div>
+                    </div>
                 <div class="feature-card">
                     <span class="feature-emoji">✅</span>
                     <h4>99.9% Uptime</h4>
                     <p>Enterprise SLA with robust reliability and disaster recovery</p>
                 </div>
-            </div>
-        </div>
+                    </div>
+                </div>
     </section>
 
     <!-- Results Section -->
@@ -1112,45 +2033,24 @@
             <h2 class="section-title">Results & Impact</h2>
             <p class="section-subtitle">Transforming how enterprise teams create and manage documentation.</p>
             
-            <div class="metrics-grid">
-                <div class="metric-card">
-                    <span class="metric-value">1hr</span>
-                    <span class="metric-label">Outline Creation (Unchanged)</span>
-                </div>
-                <div class="metric-card">
-                    <span class="metric-value">1hr</span>
-                    <span class="metric-label">Formal Draft (Down from 4hrs)</span>
-                </div>
-                <div class="metric-card">
-                    <span class="metric-value">1-Click</span>
-                    <span class="metric-label">Generation Process</span>
-                </div>
-                <div class="metric-card">
-                    <span class="metric-value">75%</span>
-                    <span class="metric-label">Time Reduction</span>
-                </div>
+            <div class="quote-container">
+                <blockquote class="testimonial-quote">
+                    "Platform reduced time to draft a frequently completed R&D document by 75%, saving 192 development hours per project."
+                </blockquote>
+                <cite class="quote-attribution">— Medtech Company</cite>
             </div>
-            
-            <ul class="results-list">
-                <li>2-step LLM process: complete sentences first, then formatting and structure</li>
-                <li>Converts bullet-point outlines to formal R&D documentation drafts</li>
-                <li>Reduces document creation bottleneck from 4 hours to 1 hour</li>
-                <li>Saves 192 work hours per R&D project (64 documents × 3 hours saved)</li>
-                <li>Built for confidential product IP with Azure enterprise security</li>
-                <li>Started with Enterprise Copilot, evolved to custom Promptflow solution</li>
-            </ul>
-        </div>
+            </div>
     </section>
 
     <!-- Footer CTA -->
     <footer class="footer">
         <div class="container">
             <h3>Ready to Transform Your Documentation?</h3>
-            <p>Experience the power of AI-driven automation with Azure ML Promptflow and revolutionize your enterprise workflows.</p>
+            <p>Experience the power of automation with Azure ML Promptflow and revolutionize your enterprise workflows.</p>
             <a href="#" class="cta">Get Started Today</a>
-        </div>
+            </div>
     </footer>
-
+    
     <script>
         // Smooth scroll reveal animation
         const observerOptions = {
@@ -1195,6 +2095,55 @@
                 hero.style.transform = `translateY(${rate}px)`;
             }
         });
+        
+        // Chat demo animation
+        let chatAnimationTriggered = false;
+        
+        function animateChat() {
+            if (chatAnimationTriggered) return;
+            chatAnimationTriggered = true;
+            
+            const messages = document.querySelectorAll('.message');
+            const typingMessage = document.querySelector('.typing');
+            
+            messages.forEach((message, index) => {
+                if (message.classList.contains('typing')) return;
+                
+                const delay = parseInt(message.getAttribute('data-delay')) || 0;
+                
+                setTimeout(() => {
+                    message.style.opacity = '1';
+                    message.style.transform = 'translateY(0)';
+                }, delay);
+            });
+            
+            // Handle typing indicator
+            if (typingMessage) {
+                setTimeout(() => {
+                    typingMessage.style.opacity = '1';
+                    typingMessage.style.transform = 'translateY(0)';
+                }, 1000);
+                
+                setTimeout(() => {
+                    typingMessage.style.display = 'none';
+                }, 3000);
+            }
+        }
+        
+        // Trigger chat animation when chat demo comes into view
+        const chatObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateChat();
+                }
+            });
+        }, { threshold: 0.3 });
+        
+        const chatDemo = document.querySelector('.chat-demo-container');
+        if (chatDemo) {
+            chatObserver.observe(chatDemo);
+        }
+        
     </script>
 </body>
 </html>
